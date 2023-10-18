@@ -81,9 +81,15 @@ export default function ({ navigation, route }) {
             }}>
 
 
-                <MyMenuFeature img={require('../../assets/L1.png')} label="Laporan Data Karyawan" onPress={() => navigation.navigate('Relaksasi')} />
-                <MyMenuFeature img={require('../../assets/L2.png')} label="Laporan Data Produksi" onPress={() => navigation.navigate('Relaksasi')} />
-                <MyMenuFeature img={require('../../assets/L3.png')} label="Laporan Data Line Mesin" onPress={() => navigation.navigate('Relaksasi')} />
+                <MyMenuFeature img={require('../../assets/L1.png')} label="Laporan Data Karyawan" onPress={() => navigation.navigate('AppLaporanKaryawan', {
+                    judul: 'Laporan Data Karyawan'
+                })} />
+                <MyMenuFeature img={require('../../assets/L2.png')} label="Laporan Data Produksi" onPress={() => navigation.navigate('APPLaporanProduksi', {
+                    judul: 'Laporan Data Produksi'
+                })} />
+                <MyMenuFeature img={require('../../assets/L3.png')} label="Laporan Data Line Mesin" onPress={() => navigation.navigate('APPLaporanLine', {
+                    judul: 'Laporan Data Line Mesin'
+                })} />
 
 
 

@@ -176,6 +176,13 @@ export default function ({ navigation, route }) {
                 visible={open}
                 onRequestClose={() => {
                     setOpen(!open);
+                    setKirim({
+                        tipe: 'ADD',
+                        kode_produk: '',
+                        tanggal_produksi: moment().format('YYYY-MM-DD'),
+                        panjang_fiber: '',
+                        hasil_kualitas: '',
+                    })
                 }}>
                 <View style={{
                     backgroundColor: '#00000090',

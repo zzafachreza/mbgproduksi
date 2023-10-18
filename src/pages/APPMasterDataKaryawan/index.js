@@ -185,6 +185,14 @@ export default function ({ navigation, route }) {
                 visible={open}
                 onRequestClose={() => {
                     setOpen(!open);
+                    setKirim({
+                        tipe: 'ADD',
+                        nip: '',
+                        nama: '',
+                        jabatan: '',
+                        username: '',
+                        password: '',
+                    })
                 }}>
                 <View style={{
                     backgroundColor: '#00000090',

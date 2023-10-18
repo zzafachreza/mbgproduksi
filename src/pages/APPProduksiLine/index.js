@@ -21,18 +21,20 @@ import DocumentPicker, {
 
 
 import ProgressCircle from 'react-native-progress-circle'
-import { MyButton, MyGap, MyInput } from '../../components';
+import { MyButton, MyCalendar, MyGap, MyInput } from '../../components';
 import { Modal } from 'react-native';
 
 export default function ({ navigation, route }) {
     const [open, setOpen] = useState(false);
     const [kirim, setKirim] = useState({
         tipe: 'ADD',
-        kode_produk: '',
-        nama_produk: ''
+        line_mesin: '',
+        tanggal_produksi: moment().format('YYYY-MM-DD'),
+        waktu_produksi: '',
+        keterangan: '',
     });
 
-    const modul = 'produk';
+    const modul = 'line';
 
     const [data, setData] = useState([]);
 
@@ -63,20 +65,37 @@ export default function ({ navigation, route }) {
                     <Text style={{
                         fontFamily: fonts.secondary[600],
                         fontSize: 12
-                    }}>Kode Produk</Text>
+                    }}>Line Mesin</Text>
                     <Text style={{
                         fontFamily: fonts.secondary[400],
                         fontSize: 12
-                    }}>{item.kode_produk}</Text>
+                    }}>{item.line_mesin}</Text>
                     <Text style={{
                         fontFamily: fonts.secondary[600],
                         fontSize: 12
-                    }}>Nama Produk</Text>
+                    }}>Tanggal Produksi</Text>
                     <Text style={{
                         fontFamily: fonts.secondary[400],
                         fontSize: 12
-                    }}>{item.nama_produk}</Text>
+                    }}>{item.tanggal_produksi}</Text>
+                    <Text style={{
+                        fontFamily: fonts.secondary[600],
+                        fontSize: 12
+                    }}>Waktu Produksi</Text>
+                    <Text style={{
+                        fontFamily: fonts.secondary[400],
+                        fontSize: 12
+                    }}>{item.waktu_produksi}</Text>
+                    <Text style={{
+                        fontFamily: fonts.secondary[600],
+                        fontSize: 12
+                    }}>Keterangan</Text>
+                    <Text style={{
+                        fontFamily: fonts.secondary[400],
+                        fontSize: 12
+                    }}>{item.keterangan}</Text>
                 </View>
+
                 <View style={{
                     flexDirection: 'row',
                     alignItems: 'center'
@@ -84,9 +103,11 @@ export default function ({ navigation, route }) {
                     <TouchableOpacity onPress={() => {
                         setKirim({
                             tipe: 'UPDATE',
-                            id_produk: item.id,
-                            nama_produk: item.nama_produk,
-                            kode_produk: item.kode_produk
+                            id_line: item.id,
+                            line_mesin: item.line_mesin,
+                            tanggal_produksi: item.tanggal_produksi,
+                            waktu_produksi: item.waktu_produksi,
+                            keterangan: item.keterangan,
                         });
                         setOpen(true);
                     }} style={{
@@ -155,6 +176,13 @@ export default function ({ navigation, route }) {
                 visible={open}
                 onRequestClose={() => {
                     setOpen(!open);
+                    setKirim({
+                        tipe: 'ADD',
+                        line_mesin: '',
+                        tanggal_produksi: moment().format('YYYY-MM-DD'),
+                        waktu_produksi: '',
+                        keterangan: '',
+                    })
                 }}>
                 <View style={{
                     backgroundColor: '#00000090',
@@ -170,19 +198,35 @@ export default function ({ navigation, route }) {
                         justifyContent: 'center'
                     }}>
                         <ScrollView>
-                            <MyInput label="Kode Produk" onChangeText={x => {
+
+                            <MyInput iconname='create' label="Line Mesin" value={kirim.line_mesin} onChangeText={x => {
                                 setKirim({
                                     ...kirim,
-                                    kode_produk: x
+                                    line_mesin: x
                                 })
-                            }} value={kirim.kode_produk} iconname="create" />
+                            }} />
+
                             <MyGap jarak={10} />
-                            <MyInput label="Nama Produk" onChangeText={x => {
+                            <MyCalendar iconname="create" value={kirim.tanggal_produksi} label="Tanggal Produksi" onDateChange={x => {
                                 setKirim({
                                     ...kirim,
-                                    nama_produk: x
+                                    tanggal_produksi: x
                                 })
-                            }} value={kirim.nama_produk} iconname="create" />
+                            }} />
+                            <MyGap jarak={10} />
+                            <MyInput iconname='create' label="Waktu Produksi" value={kirim.waktu_produksi} onChangeText={x => {
+                                setKirim({
+                                    ...kirim,
+                                    waktu_produksi: x
+                                })
+                            }} />
+                            <MyGap jarak={10} />
+                            <MyInput iconname='create' label="Keterangan" value={kirim.keterangan} onChangeText={x => {
+                                setKirim({
+                                    ...kirim,
+                                    keterangan: x
+                                })
+                            }} />
                             <MyGap jarak={20} />
                             <MyButton title="Simpan" onPress={() => {
                                 console.log(kirim);
@@ -195,6 +239,13 @@ export default function ({ navigation, route }) {
                                 }
                                 axios.post(link, kirim).then(res => {
                                     __getTransaction();
+                                    setKirim({
+                                        tipe: 'ADD',
+                                        line_mesin: '',
+                                        tanggal_produksi: moment().format('YYYY-MM-DD'),
+                                        waktu_produksi: '',
+                                        keterangan: '',
+                                    })
                                     setOpen(false);
                                 })
                             }} />
