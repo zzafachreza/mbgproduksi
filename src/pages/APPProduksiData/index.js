@@ -21,7 +21,7 @@ import DocumentPicker, {
 
 
 import ProgressCircle from 'react-native-progress-circle'
-import { MyButton, MyCalendar, MyGap, MyInput } from '../../components';
+import { MyButton, MyCalendar, MyGap, MyInput, MyPicker } from '../../components';
 import { Modal } from 'react-native';
 
 export default function ({ navigation, route }) {
@@ -31,12 +31,15 @@ export default function ({ navigation, route }) {
         kode_produk: '',
         tanggal_produksi: moment().format('YYYY-MM-DD'),
         panjang_fiber: '',
-        hasil_kualitas: '',
+        hasil_kualitas: 'Baik',
+        nama_leader: '',
+        harga_produk: ''
     });
 
     const modul = 'produksi';
 
     const [data, setData] = useState([]);
+    const [produk, setProduk] = useState([]);
 
     useEffect(() => {
         __getTransaction();
@@ -46,6 +49,14 @@ export default function ({ navigation, route }) {
         axios.post(apiURL + modul).then(res => {
             console.log(res.data);
             setData(res.data)
+        });
+
+        axios.post(apiURL + 'produk').then(pr => {
+            setProduk(pr.data);
+            setKirim({
+                ...kirim,
+                kode_produk: pr.data[0].value
+            })
         })
     }
 
@@ -73,6 +84,14 @@ export default function ({ navigation, route }) {
                     <Text style={{
                         fontFamily: fonts.secondary[600],
                         fontSize: 12
+                    }}>Nama Produk</Text>
+                    <Text style={{
+                        fontFamily: fonts.secondary[400],
+                        fontSize: 12
+                    }}>{item.nama_produk}</Text>
+                    <Text style={{
+                        fontFamily: fonts.secondary[600],
+                        fontSize: 12
                     }}>Tanggal Produksi</Text>
                     <Text style={{
                         fontFamily: fonts.secondary[400],
@@ -94,6 +113,23 @@ export default function ({ navigation, route }) {
                         fontFamily: fonts.secondary[400],
                         fontSize: 12
                     }}>{item.hasil_kualitas}</Text>
+                    <Text style={{
+                        fontFamily: fonts.secondary[600],
+                        fontSize: 12
+                    }}>Nama Leader</Text>
+                    <Text style={{
+                        fontFamily: fonts.secondary[400],
+                        fontSize: 12
+                    }}>{item.nama_leader}</Text>
+                    <Text style={{
+                        fontFamily: fonts.secondary[600],
+                        fontSize: 12
+                    }}>Harga Produk</Text>
+                    <Text style={{
+                        fontFamily: fonts.secondary[400],
+                        fontSize: 12
+                    }}>{new Intl.NumberFormat().format(item.harga_produk)}</Text>
+
                 </View>
 
                 <View style={{
@@ -108,6 +144,8 @@ export default function ({ navigation, route }) {
                             tanggal_produksi: item.tanggal_produksi,
                             panjang_fiber: item.panjang_fiber,
                             hasil_kualitas: item.hasil_kualitas,
+                            nama_leader: item.nama_leader,
+                            harga_produk: item.harga_produk,
                         });
                         setOpen(true);
                     }} style={{
@@ -181,7 +219,9 @@ export default function ({ navigation, route }) {
                         kode_produk: '',
                         tanggal_produksi: moment().format('YYYY-MM-DD'),
                         panjang_fiber: '',
-                        hasil_kualitas: '',
+                        hasil_kualitas: 'Baik',
+                        nama_leader: '',
+                        harga_produk: '',
                     })
                 }}>
                 <View style={{
@@ -199,7 +239,7 @@ export default function ({ navigation, route }) {
                     }}>
                         <ScrollView>
 
-                            <MyInput iconname='create' label="Kode Produk" value={kirim.kode_produk} onChangeText={x => {
+                            <MyPicker data={produk} label="Kode Produk" value={kirim.kode_produk} onValueChange={x => {
                                 setKirim({
                                     ...kirim,
                                     kode_produk: x
@@ -221,10 +261,28 @@ export default function ({ navigation, route }) {
                                 })
                             }} />
                             <MyGap jarak={10} />
-                            <MyInput iconname='create' label="Hasil Kualitas" value={kirim.hasil_kualitas} onChangeText={x => {
+
+                            <MyPicker data={[
+                                { label: 'Baik', value: 'Baik' },
+                                { label: 'Buruk', value: 'Buruk' },
+                            ]} iconname='create' label='Hasil Kualitas' value={kirim.hasil_kualitas} onValueChange={x => {
                                 setKirim({
                                     ...kirim,
                                     hasil_kualitas: x
+                                })
+                            }} />
+                            <MyGap jarak={10} />
+                            <MyInput iconname='create' label="Nama Leader" value={kirim.nama_leader} onChangeText={x => {
+                                setKirim({
+                                    ...kirim,
+                                    nama_leader: x
+                                })
+                            }} />
+                            <MyGap jarak={10} />
+                            <MyInput iconname='create' keyboardType='number-pad' label="Harga Produk" value={kirim.harga_produk} onChangeText={x => {
+                                setKirim({
+                                    ...kirim,
+                                    harga_produk: x
                                 })
                             }} />
                             <MyGap jarak={20} />
@@ -244,7 +302,9 @@ export default function ({ navigation, route }) {
                                         kode_produk: '',
                                         tanggal_produksi: moment().format('YYYY-MM-DD'),
                                         panjang_fiber: '',
-                                        hasil_kualitas: '',
+                                        hasil_kualitas: 'Baik',
+                                        nama_leader: '',
+                                        harga_produk: '',
                                     })
                                     setOpen(false);
                                 })

@@ -32,6 +32,7 @@ export default function ({ navigation, route }) {
         tanggal_produksi: moment().format('YYYY-MM-DD'),
         waktu_produksi: '',
         keterangan: '',
+        nama_operator: '',
     });
 
     const modul = 'line';
@@ -94,6 +95,14 @@ export default function ({ navigation, route }) {
                         fontFamily: fonts.secondary[400],
                         fontSize: 12
                     }}>{item.keterangan}</Text>
+                    <Text style={{
+                        fontFamily: fonts.secondary[600],
+                        fontSize: 12
+                    }}>Nama Operator</Text>
+                    <Text style={{
+                        fontFamily: fonts.secondary[400],
+                        fontSize: 12
+                    }}>{item.nama_operator}</Text>
                 </View>
 
                 <View style={{
@@ -108,6 +117,7 @@ export default function ({ navigation, route }) {
                             tanggal_produksi: item.tanggal_produksi,
                             waktu_produksi: item.waktu_produksi,
                             keterangan: item.keterangan,
+                            nama_operator: item.nama_operator,
                         });
                         setOpen(true);
                     }} style={{
@@ -182,6 +192,7 @@ export default function ({ navigation, route }) {
                         tanggal_produksi: moment().format('YYYY-MM-DD'),
                         waktu_produksi: '',
                         keterangan: '',
+                        nama_operator: '',
                     })
                 }}>
                 <View style={{
@@ -227,6 +238,13 @@ export default function ({ navigation, route }) {
                                     keterangan: x
                                 })
                             }} />
+                            <MyGap jarak={10} />
+                            <MyInput iconname='create' label="Nama Operator" value={kirim.nama_operator} onChangeText={x => {
+                                setKirim({
+                                    ...kirim,
+                                    nama_operator: x
+                                })
+                            }} />
                             <MyGap jarak={20} />
                             <MyButton title="Simpan" onPress={() => {
                                 console.log(kirim);
@@ -245,6 +263,7 @@ export default function ({ navigation, route }) {
                                         tanggal_produksi: moment().format('YYYY-MM-DD'),
                                         waktu_produksi: '',
                                         keterangan: '',
+                                        nama_operator: '',
                                     })
                                     setOpen(false);
                                 })

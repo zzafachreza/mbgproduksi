@@ -43,7 +43,7 @@ const MyMenuFeature = ({ img, label, onPress }) => {
 }
 
 export default function ({ navigation, route }) {
-
+    const user = route.params;
 
     return (
         <SafeAreaView style={{
@@ -81,9 +81,9 @@ export default function ({ navigation, route }) {
             }}>
 
 
-                <MyMenuFeature img={require('../../assets/M1.png')} label="Master Data Produk" onPress={() => navigation.navigate('APPMasterDataProduk', {
+                {user.jabatan !== 'Direktur' && <MyMenuFeature img={require('../../assets/M1.png')} label="Master Data Produk" onPress={() => navigation.navigate('APPMasterDataProduk', {
                     judul: 'Master Data Produk'
-                })} />
+                })} />}
                 <MyMenuFeature img={require('../../assets/M2.png')} label="Master Data Karyawan" onPress={() => navigation.navigate('APPMasterDataKaryawan', {
                     judul: 'Master Data Karyawan'
                 })} />

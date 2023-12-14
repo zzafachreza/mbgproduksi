@@ -61,7 +61,18 @@ export default function AccountEdit({ navigation, route }) {
                 <MyGap jarak={10} />
                 <MyInput label="Nama" iconname="person" value={kirim.nama} onChangeText={x => setKirim({ ...kirim, nama: x })} />
                 <MyGap jarak={10} />
-                <MyInput label="Jabatan" iconname="ribbon" value={kirim.jabatan} onChangeText={x => setKirim({ ...kirim, jabatan: x })} />
+                <MyPicker iconname="create" label="Jabatan" value={kirim.jabatan} onValueChange={x => {
+                    setKirim({
+                        ...kirim,
+                        jabatan: x
+                    })
+                }} data={[
+                    { label: 'Direktur', value: 'Direktur' },
+                    { label: 'Manajer Produksi', value: 'Manajer Produksi' },
+                    { label: 'Staf Produksi', value: 'Staf Produksi' },
+                    { label: 'Leader Produksi', value: 'Leader Produksi' },
+                    { label: 'Admin', value: 'Admin' },
+                ]} />
                 <MyGap jarak={10} />
                 <MyInput label="Username" iconname="at" value={kirim.username} onChangeText={x => setKirim({ ...kirim, username: x })} />
                 <MyGap jarak={10} />

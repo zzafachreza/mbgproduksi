@@ -40,6 +40,7 @@ export default function ({ navigation, route }) {
                 <th>Tanggal</th>
                 <th>Waktu Produksi</th>
                 <th>Keterangan</th>
+                <th>Nama Operator</th>
              </tr>` ;
 
         let tbody = ``;
@@ -51,6 +52,7 @@ export default function ({ navigation, route }) {
                 <td>${i.tanggal_produksi}</td>
                 <td>${i.waktu_produksi}</td>
                 <td>${i.keterangan}</td>
+                <td>${i.nama_operator}</td>
             
             </tr>`
         })
@@ -59,10 +61,13 @@ export default function ({ navigation, route }) {
         let tfoot = `</table>`;
 
 
+        let ttd = `<p style="text-align:right;margin-top:40px;margin-right:40px">Kendal, ${moment().format('DD MMMM YYYY')}</p><p style="text-align:right;margin-top:40px;margin-right:40px">${user.nama}</p>`;
+
+
 
         let options = {
-            html: thead + tbody + tfoot,
-            fileName: 'MBGProduksi',
+            html: thead + tbody + tfoot + ttd,
+            fileName: 'MBGProdukLine',
             directory: 'Documents',
             height: 1122.52, width: 793.7,
         };
@@ -98,7 +103,13 @@ export default function ({ navigation, route }) {
         akhir: moment().format('YYYY-MM-DD')
     })
 
+    const [user, setUser] = useState({});
+
     useEffect(() => {
+        getData('user').then(uu => {
+            setUser(uu);
+            console.log(uu)
+        })
         __getTransaction();
     }, []);
 
@@ -130,6 +141,8 @@ export default function ({ navigation, route }) {
                 <Text style={styles.isi}>{item.waktu_produksi}</Text>
 
                 <Text style={styles.isi}>{item.keterangan}</Text>
+                <Text style={styles.isi}>{item.nama_operator}</Text>
+
             </View >
         )
     }
@@ -196,16 +209,39 @@ export default function ({ navigation, route }) {
                     <Text style={styles.judul}>Tanggal</Text>
                     <Text style={styles.judul}>Waktu Produksi</Text>
                     <Text style={styles.judul}>Keterangan</Text>
+                    <Text style={styles.judul}>Nama Operator</Text>
                 </View >
                 <FlatList data={data} renderItem={__renderItem} />
+
+                <View style={{
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end',
+                    padding: 10,
+                }}>
+                    <View style={{
+                        justifyContent: 'center',
+                        alignItems: 'center'
+
+                    }}>
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            fontSize: 12
+                        }}>Kendal, {moment().format('DD MMMM YYYY')}</Text>
+                        <MyGap jarak={20} />
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            fontSize: 12
+                        }}>{user.nama}</Text>
+                    </View>
+                </View>
             </View>
 
-
-            <View style={{
+            {user.jabatan !== 'Direktur' && <View style={{
                 padding: 10
             }}>
                 <MyButton onPress={createPDF} title="Cetak" warna={colors.danger} Icons="print-outline" />
-            </View>
+            </View>}
+
         </SafeAreaView>
     )
 }
@@ -217,7 +253,7 @@ const styles = StyleSheet.create({
         margin: 1,
         backgroundColor: colors.white,
         fontFamily: fonts.secondary[400],
-        fontSize: 12,
+        fontSize: 10,
         textAlign: 'center'
     },
     judul: {
@@ -226,7 +262,7 @@ const styles = StyleSheet.create({
         margin: 1,
         backgroundColor: colors.white,
         fontFamily: fonts.secondary[800],
-        fontSize: 12,
+        fontSize: 10,
         textAlign: 'center'
     }
 })

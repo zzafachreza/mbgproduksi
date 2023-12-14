@@ -31,7 +31,7 @@ export default function MyPicker({
         <Text
           style={{
             fontFamily: fonts.secondary[600],
-            color: colors.primary,
+            color: colors.black,
             left: 10,
             fontSize: 12,
             ...styleLabel,
@@ -41,11 +41,12 @@ export default function MyPicker({
       </View>
 
       <View style={{
-        backgroundColor: colors.zavalabs,
+        backgroundColor: colors.white,
         borderRadius: 10,
         marginTop: 5,
+        borderWidth: 1,
         fontFamily: fonts.secondary[600],
-        borderColor: colors.primary,
+        borderColor: colors.border,
       }}>
         <Picker style={{ height: 48, transform: [{ scale: 0.9 }] }}
           selectedValue={value} onValueChange={onValueChange}>

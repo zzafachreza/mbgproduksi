@@ -39,9 +39,12 @@ export default function ({ navigation, route }) {
         <table width="100%" border="1" style="margin-top:5%;border-collapse:collapse" cellpadding="4">
             <tr>
                 <th>Kode Produk</th>
+                <th>Nama Produk</th>
                 <th>Tanggal</th>
                 <th>Panjang Fiber</th>
                 <th>Hasil Kualitas</th>
+                <th>Nama Leader</th>
+                <th>Harga Produk</th>
              </tr>` ;
 
         let tbody = ``;
@@ -50,9 +53,12 @@ export default function ({ navigation, route }) {
 
             tbody += `<tr>
                 <td>${i.kode_produk}</td>
+                <td>${i.nama_produk}</td>
                 <td>${i.tanggal_produksi}</td>
                 <td>${i.panjang_fiber}</td>
                 <td>${i.hasil_kualitas}</td>
+                <td>${i.nama_leader}</td>
+                <td>${new Intl.NumberFormat().format(i.harga_produk)}</td>
             
             </tr>`
         })
@@ -60,10 +66,10 @@ export default function ({ navigation, route }) {
 
         let tfoot = `</table>`;
 
-
+        let ttd = `<p style="text-align:right;margin-top:40px;margin-right:40px">Kendal, ${moment().format('DD MMMM YYYY')}</p><p style="text-align:right;margin-top:40px;margin-right:40px">${user.nama}</p>`;
 
         let options = {
-            html: thead + tbody + tfoot,
+            html: thead + tbody + tfoot + ttd,
             fileName: 'MBGProduksi',
             directory: 'Documents',
             height: 1122.52, width: 793.7,
@@ -90,7 +96,7 @@ export default function ({ navigation, route }) {
 
     }
 
-
+    const [user, setUser] = useState({});
 
     const modul = 'produksi';
 
@@ -101,6 +107,10 @@ export default function ({ navigation, route }) {
     })
 
     useEffect(() => {
+        getData('user').then(uu => {
+            setUser(uu);
+            console.log(uu)
+        })
         __getTransaction();
     }, []);
 
@@ -128,9 +138,12 @@ export default function ({ navigation, route }) {
                 backgroundColor: colors.primary,
             }}>
                 <Text style={styles.isi}>{item.kode_produk}</Text>
+                <Text style={styles.isi}>{item.nama_produk}</Text>
                 <Text style={styles.isi}>{item.tanggal_produksi}</Text>
                 <Text style={styles.isi}>{item.panjang_fiber}</Text>
                 <Text style={styles.isi}>{item.hasil_kualitas}</Text>
+                <Text style={styles.isi}>{item.nama_leader}</Text>
+                <Text style={styles.isi}>{new Intl.NumberFormat().format(item.harga_produk)}</Text>
             </View >
         )
     }
@@ -194,20 +207,45 @@ export default function ({ navigation, route }) {
                     backgroundColor: colors.primary,
                 }}>
                     <Text style={styles.judul}>Kode Produk</Text>
+                    <Text style={styles.judul}>Nama Produk</Text>
                     <Text style={styles.judul}>Tanggal</Text>
                     <Text style={styles.judul}>Panjang Fiber</Text>
                     <Text style={styles.judul}>Hasil Kualitas</Text>
+                    <Text style={styles.judul}>Nama Leader</Text>
+                    <Text style={styles.judul}>Harga Produk</Text>
                 </View >
                 <FlatList data={data} renderItem={__renderItem} />
+
+                <View style={{
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end',
+                    padding: 10,
+                }}>
+                    <View style={{
+                        justifyContent: 'center',
+                        alignItems: 'center'
+
+                    }}>
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            fontSize: 12
+                        }}>Kendal, {moment().format('DD MMMM YYYY')}</Text>
+                        <MyGap jarak={20} />
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            fontSize: 12
+                        }}>{user.nama}</Text>
+                    </View>
+                </View>
             </View>
 
 
-            <View style={{
+            {user.jabatan !== 'Direktur' && <View style={{
                 padding: 10
             }}>
                 <MyButton onPress={createPDF} title="Cetak" warna={colors.danger} Icons="print-outline" />
-            </View>
-        </SafeAreaView>
+            </View>}
+        </SafeAreaView >
     )
 }
 
@@ -218,7 +256,7 @@ const styles = StyleSheet.create({
         margin: 1,
         backgroundColor: colors.white,
         fontFamily: fonts.secondary[400],
-        fontSize: 12,
+        fontSize: 10,
         textAlign: 'center'
     },
     judul: {
@@ -227,7 +265,7 @@ const styles = StyleSheet.create({
         margin: 1,
         backgroundColor: colors.white,
         fontFamily: fonts.secondary[800],
-        fontSize: 12,
+        fontSize: 10,
         textAlign: 'center'
     }
 })

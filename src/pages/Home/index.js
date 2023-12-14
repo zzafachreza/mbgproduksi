@@ -149,20 +149,100 @@ export default function Home({ navigation, route }) {
         padding: 20,
       }}>
 
-        <View style={{
-          flexDirection: 'row',
-          marginVertical: 10,
-        }}>
-          <MyMenuFeature img={require('../../assets/A1.png')} label="Master Data" onPress={() => navigation.navigate('APPMasterData')} />
-          <MyMenuFeature img={require('../../assets/A2.png')} label="Produksi" onPress={() => navigation.navigate('APPProduksi')} />
-        </View>
-        <View style={{
-          flexDirection: 'row',
-          marginVertical: 10,
-        }}>
-          <MyMenuFeature img={require('../../assets/A3.png')} label="Laporan" onPress={() => navigation.navigate('APPLaporan')} />
-          <MyMenuFeature img={require('../../assets/A4.png')} label="Akun" onPress={() => navigation.navigate('Account')} />
-        </View>
+        {user.jabatan == 'Admin' &&
+          <>
+            <View style={{
+              flexDirection: 'row',
+              marginVertical: 10,
+            }}>
+              <MyMenuFeature img={require('../../assets/A1.png')} label="Master Data" onPress={() => navigation.navigate('APPMasterData', user)} />
+              <MyMenuFeature img={require('../../assets/A2.png')} label="Produksi" onPress={() => navigation.navigate('APPProduksi', user)} />
+            </View>
+            <View style={{
+              flexDirection: 'row',
+              marginVertical: 10,
+            }}>
+              <MyMenuFeature img={require('../../assets/A3.png')} label="Laporan" onPress={() => navigation.navigate('APPLaporan', user)} />
+              <MyMenuFeature img={require('../../assets/A4.png')} label="Akun" onPress={() => navigation.navigate('Account', user)} />
+            </View>
+          </>
+        }
+
+        {user.jabatan == 'Staf Produksi' &&
+          <>
+            <View style={{
+              flexDirection: 'row',
+              marginVertical: 10,
+            }}>
+              <MyMenuFeature img={require('../../assets/A1.png')} label="Master Data" onPress={() => navigation.navigate('APPMasterData', user)} />
+              <MyMenuFeature img={require('../../assets/A2.png')} label="Produksi" onPress={() => navigation.navigate('APPProduksi', user)} />
+            </View>
+            <View style={{
+              flexDirection: 'row',
+              marginVertical: 10,
+            }}>
+              <MyMenuFeature img={require('../../assets/A3.png')} label="Laporan" onPress={() => navigation.navigate('APPLaporan', user)} />
+              <MyMenuFeature img={require('../../assets/A4.png')} label="Akun" onPress={() => navigation.navigate('Account', user)} />
+            </View>
+          </>
+        }
+
+        {user.jabatan == 'Direktur' &&
+          <>
+            <View style={{
+              flexDirection: 'row',
+              marginVertical: 10,
+            }}>
+              <MyMenuFeature img={require('../../assets/A1.png')} label="Master Data" onPress={() => navigation.navigate('APPMasterData', user)} />
+
+            </View>
+            <View style={{
+              flexDirection: 'row',
+              marginVertical: 10,
+            }}>
+              <MyMenuFeature img={require('../../assets/A3.png')} label="Laporan" onPress={() => navigation.navigate('APPLaporan', user)} />
+              <MyMenuFeature img={require('../../assets/A4.png')} label="Akun" onPress={() => navigation.navigate('Account', user)} />
+            </View>
+          </>
+        }
+
+        {user.jabatan == 'Manajer Produksi' &&
+          <>
+            <View style={{
+              flexDirection: 'row',
+              marginVertical: 10,
+            }}>
+              <MyMenuFeature img={require('../../assets/A1.png')} label="Master Data" onPress={() => navigation.navigate('APPMasterData', user)} />
+
+            </View>
+            <View style={{
+              flexDirection: 'row',
+              marginVertical: 10,
+            }}>
+              <MyMenuFeature img={require('../../assets/A3.png')} label="Laporan" onPress={() => navigation.navigate('APPLaporan', user)} />
+              <MyMenuFeature img={require('../../assets/A4.png')} label="Akun" onPress={() => navigation.navigate('Account', user)} />
+            </View>
+          </>
+        }
+
+        {user.jabatan == 'Leader Produksi' &&
+          <>
+            <View style={{
+              flexDirection: 'row',
+              marginVertical: 10,
+            }}>
+              <MyMenuFeature img={require('../../assets/A2.png')} label="Produksi" onPress={() => navigation.navigate('APPProduksi', user)} />
+
+            </View>
+            <View style={{
+              flexDirection: 'row',
+              marginVertical: 10,
+            }}>
+              <MyMenuFeature img={require('../../assets/A3.png')} label="Laporan" onPress={() => navigation.navigate('APPLaporan', user)} />
+              <MyMenuFeature img={require('../../assets/A4.png')} label="Akun" onPress={() => navigation.navigate('Account', user)} />
+            </View>
+          </>
+        }
 
 
       </View>

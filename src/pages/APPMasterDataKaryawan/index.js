@@ -21,7 +21,7 @@ import DocumentPicker, {
 
 
 import ProgressCircle from 'react-native-progress-circle'
-import { MyButton, MyGap, MyInput } from '../../components';
+import { MyButton, MyGap, MyInput, MyPicker } from '../../components';
 import { Modal } from 'react-native';
 
 export default function ({ navigation, route }) {
@@ -30,7 +30,7 @@ export default function ({ navigation, route }) {
         tipe: 'ADD',
         nip: '',
         nama: '',
-        jabatan: '',
+        jabatan: 'Direktur',
         username: '',
         password: '',
     });
@@ -189,7 +189,7 @@ export default function ({ navigation, route }) {
                         tipe: 'ADD',
                         nip: '',
                         nama: '',
-                        jabatan: '',
+                        jabatan: 'Direktur',
                         username: '',
                         password: '',
                     })
@@ -223,12 +223,24 @@ export default function ({ navigation, route }) {
                                 })
                             }} />
                             <MyGap jarak={10} />
-                            <MyInput iconname="create" label="jabatan" value={kirim.jabatan} onChangeText={x => {
+                            {/* <MyInput iconname="create" label="jabatan" value={kirim.jabatan} onChangeText={x => {
                                 setKirim({
                                     ...kirim,
                                     jabatan: x
                                 })
-                            }} />
+                            }} /> */}
+                            <MyPicker iconname="create" label="Jabatan" value={kirim.jabatan} onValueChange={x => {
+                                setKirim({
+                                    ...kirim,
+                                    jabatan: x
+                                })
+                            }} data={[
+                                { label: 'Direktur', value: 'Direktur' },
+                                { label: 'Manajer Produksi', value: 'Manajer Produksi' },
+                                { label: 'Staf Produksi', value: 'Staf Produksi' },
+                                { label: 'Leader Produksi', value: 'Leader Produksi' },
+                                { label: 'Admin', value: 'Admin' },
+                            ]} />
                             <MyGap jarak={10} />
                             <MyInput iconname="create" label="username" value={kirim.username} onChangeText={x => {
                                 setKirim({
@@ -261,7 +273,7 @@ export default function ({ navigation, route }) {
                                         tipe: 'ADD',
                                         nip: '',
                                         nama: '',
-                                        jabatan: '',
+                                        jabatan: 'Direktur',
                                         username: '',
                                         password: '',
                                     })
