@@ -55,7 +55,7 @@ export default function ({ navigation, route }) {
             setProduk(pr.data);
             setKirim({
                 ...kirim,
-                kode_produk: pr.data[0].value
+                kode_produk: pr.data[0].value,
             })
         })
     }
@@ -145,6 +145,7 @@ export default function ({ navigation, route }) {
                             panjang_fiber: item.panjang_fiber,
                             hasil_kualitas: item.hasil_kualitas,
                             nama_leader: item.nama_leader,
+                            nama_produk: item.nama_produk,
                             harga_produk: item.harga_produk,
                         });
                         setOpen(true);
@@ -203,6 +204,16 @@ export default function ({ navigation, route }) {
             </View>
             <View>
                 <MyButton title="Tambah" onPress={() => {
+                    setKirim({
+                        tipe: 'ADD',
+                        kode_produk: produk[0].value,
+                        tanggal_produksi: moment().format('YYYY-MM-DD'),
+                        panjang_fiber: '',
+                        hasil_kualitas: 'Baik',
+                        nama_produk: '',
+                        nama_leader: '',
+                        harga_produk: '',
+                    })
                     setOpen(true);
                 }} />
             </View>
@@ -221,6 +232,7 @@ export default function ({ navigation, route }) {
                         panjang_fiber: '',
                         hasil_kualitas: 'Baik',
                         nama_leader: '',
+                        nama_produk: '',
                         harga_produk: '',
                     })
                 }}>
@@ -279,6 +291,13 @@ export default function ({ navigation, route }) {
                                 })
                             }} />
                             <MyGap jarak={10} />
+                            <MyInput iconname='create' label="Nama Produk" value={kirim.nama_produk} onChangeText={x => {
+                                setKirim({
+                                    ...kirim,
+                                    nama_produk: x
+                                })
+                            }} />
+                            <MyGap jarak={10} />
                             <MyInput iconname='create' keyboardType='number-pad' label="Harga Produk" value={kirim.harga_produk} onChangeText={x => {
                                 setKirim({
                                     ...kirim,
@@ -296,16 +315,19 @@ export default function ({ navigation, route }) {
                                     link = apiURL + modul + '_update';
                                 }
                                 axios.post(link, kirim).then(res => {
+                                    console.log(res.data)
                                     __getTransaction();
                                     setKirim({
                                         tipe: 'ADD',
-                                        kode_produk: '',
+                                        kode_produk: produk[0].value,
                                         tanggal_produksi: moment().format('YYYY-MM-DD'),
                                         panjang_fiber: '',
                                         hasil_kualitas: 'Baik',
+                                        nama_produk: '',
                                         nama_leader: '',
                                         harga_produk: '',
                                     })
+                                    console.log(kirim)
                                     setOpen(false);
                                 })
                             }} />
