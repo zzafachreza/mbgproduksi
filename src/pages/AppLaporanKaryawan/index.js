@@ -31,6 +31,7 @@ export default function ({ navigation, route }) {
     const modul = 'karyawan';
 
     const [data, setData] = useState([]);
+    const [user, setUser] = useState({});
 
     useEffect(() => {
         __getTransaction();
@@ -40,6 +41,10 @@ export default function ({ navigation, route }) {
         axios.post(apiURL + modul).then(res => {
             console.log(res.data);
             setData(res.data)
+        })
+        getData('user').then(uu => {
+            setUser(uu);
+            console.log(uu)
         })
     }
 
@@ -89,6 +94,28 @@ export default function ({ navigation, route }) {
                     <Text style={styles.judul}>NIP</Text>
                 </View >
                 <FlatList data={data} renderItem={__renderItem} />
+
+                <View style={{
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end',
+                    padding: 10,
+                }}>
+                    <View style={{
+                        justifyContent: 'center',
+                        alignItems: 'center'
+
+                    }}>
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            fontSize: 12
+                        }}>Kendal, {moment().format('DD MMMM YYYY')}</Text>
+                        <MyGap jarak={20} />
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            fontSize: 12
+                        }}>{user.nama}</Text>
+                    </View>
+                </View>
             </View>
 
 

@@ -84,8 +84,8 @@ export default function ({ navigation, route }) {
                 {user.jabatan !== 'Direktur' && <MyMenuFeature img={require('../../assets/M1.png')} label="Master Data Produk" onPress={() => navigation.navigate('APPMasterDataProduk', {
                     judul: 'Master Data Produk'
                 })} />}
-                <MyMenuFeature img={require('../../assets/M2.png')} label="Master Data Karyawan" onPress={() => navigation.navigate('APPMasterDataKaryawan', {
-                    judul: 'Master Data Karyawan'
+                <MyMenuFeature img={require('../../assets/M2.png')} label="Master Data User" onPress={() => navigation.navigate('APPMasterDataKaryawan', {
+                    judul: 'Master Data User'
                 })} />
 
 
