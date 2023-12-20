@@ -36,6 +36,7 @@ export default function ({ navigation, route }) {
 
         <table width="100%" border="1" style="margin-top:5%;border-collapse:collapse" cellpadding="4">
             <tr>
+                 <th>No</th>
                 <th>Line Mesin</th>
                 <th>Tanggal</th>
                 <th>Waktu Produksi</th>
@@ -45,9 +46,10 @@ export default function ({ navigation, route }) {
 
         let tbody = ``;
 
-        data.map(i => {
+        data.map((i, index) => {
 
             tbody += `<tr>
+                <td>${index + 1}</td>
                 <td>${i.line_mesin}</td>
                 <td>${i.tanggal_produksi}</td>
                 <td>${i.waktu_produksi}</td>
@@ -61,7 +63,7 @@ export default function ({ navigation, route }) {
         let tfoot = `</table>`;
 
 
-        let ttd = `<p style="text-align:right;margin-top:40px;margin-right:40px">Kendal, ${moment().format('DD MMMM YYYY')}</p><p style="text-align:right;margin-top:40px;margin-right:40px">${user.nama}</p>`;
+        let ttd = `<p style="text-align:right;margin-top:40px;margin-right:40px">Kendal, ${moment().format('DD MMMM YYYY')}</p><p style="text-align:right;margin-top:40px;margin-right:40px">( ${user.nama} )</p><p style="text-align:right;margin-top:5px;margin-right:40px">${user.jabatan}</p>`;
 
 
 
@@ -130,12 +132,13 @@ export default function ({ navigation, route }) {
         })
     }
 
-    const __renderItem = ({ item }) => {
+    const __renderItem = ({ item, index }) => {
         return (
             <View style={{
                 flexDirection: 'row',
                 backgroundColor: colors.primary,
             }}>
+                <Text style={styles.isiNo}>{index + 1}</Text>
                 <Text style={styles.isi}>{item.line_mesin}</Text>
                 <Text style={styles.isi}>{item.tanggal_produksi}</Text>
                 <Text style={styles.isi}>{item.waktu_produksi}</Text>
@@ -205,6 +208,7 @@ export default function ({ navigation, route }) {
                     flexDirection: 'row',
                     backgroundColor: colors.primary,
                 }}>
+                    <Text style={styles.judulNo}>No</Text>
                     <Text style={styles.judul}>Line Mesin</Text>
                     <Text style={styles.judul}>Tanggal</Text>
                     <Text style={styles.judul}>Waktu Produksi</Text>
@@ -225,13 +229,17 @@ export default function ({ navigation, route }) {
                     }}>
                         <Text style={{
                             fontFamily: fonts.secondary[600],
-                            fontSize: 12
+                            fontSize: 11
                         }}>Kendal, {moment().format('DD MMMM YYYY')}</Text>
                         <MyGap jarak={20} />
                         <Text style={{
                             fontFamily: fonts.secondary[600],
-                            fontSize: 12
-                        }}>{user.nama}</Text>
+                            fontSize: 11
+                        }}>( {user.nama} )</Text>
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            fontSize: 11
+                        }}>{user.jabatan}</Text>
                     </View>
                 </View>
             </View>
@@ -247,12 +255,30 @@ export default function ({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+    isiNo: {
+        flex: 0.5,
+        padding: 5,
+        margin: 1,
+        backgroundColor: colors.white,
+        fontFamily: fonts.secondary[400],
+        fontSize: 10,
+        textAlign: 'center'
+    },
     isi: {
         flex: 1,
         padding: 5,
         margin: 1,
         backgroundColor: colors.white,
         fontFamily: fonts.secondary[400],
+        fontSize: 10,
+        textAlign: 'center'
+    },
+    judulNo: {
+        flex: 0.5,
+        padding: 5,
+        margin: 1,
+        backgroundColor: colors.white,
+        fontFamily: fonts.secondary[800],
         fontSize: 10,
         textAlign: 'center'
     },

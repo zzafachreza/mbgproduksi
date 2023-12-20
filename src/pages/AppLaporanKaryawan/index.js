@@ -24,6 +24,9 @@ import ProgressCircle from 'react-native-progress-circle'
 import { MyButton, MyGap, MyInput } from '../../components';
 import { Modal } from 'react-native';
 
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import Share from 'react-native-share';
+
 export default function ({ navigation, route }) {
 
 
@@ -48,17 +51,84 @@ export default function ({ navigation, route }) {
         })
     }
 
-    const __renderItem = ({ item }) => {
+    const createPDF = async () => {
+
+
+        let thead =
+            `
+
+        <table width="100%" border="1" style="margin-top:5%;border-collapse:collapse" cellpadding="4">
+            <tr>
+            <th>No</th>
+                <th>NIP</th>
+                <th>Nama</th>
+                <th>Jabatan</th>
+                <th>Username</th>
+             </tr>` ;
+
+        let tbody = ``;
+
+        data.map((i, index) => {
+
+            tbody += `<tr>
+                <td>${index + 1}</td>
+                <td>${i.nip}</td>
+                <td>${i.nama}</td>
+                <td>${i.jabatan}</td>
+                <td>${i.username}</td>
+            
+            </tr>`
+        })
+
+
+        let tfoot = `</table>`;
+
+
+        let ttd = `<p style="text-align:right;margin-top:40px;margin-right:40px">Kendal, ${moment().format('DD MMMM YYYY')}</p><p style="text-align:right;margin-top:40px;margin-right:40px">( ${user.nama} )</p><p style="text-align:right;margin-top:5px;margin-right:40px">${user.jabatan}</p>`;
+
+
+
+        let options = {
+            html: thead + tbody + tfoot + ttd,
+            fileName: 'MBGKaryawan',
+            directory: 'Documents',
+            height: 1122.52, width: 793.7,
+        };
+
+
+        let file = await RNHTMLtoPDF.convert(options)
+        // console.log(file.filePath);
+        // alert(file.filePath);
+
+        await Share.open({
+            title: MYAPP,
+            message: "Print data",
+            url: 'file:///' + file.filePath,
+            subject: "Report",
+        })
+            .then((res) => {
+                console.log(res);
+
+            })
+            .catch((err) => {
+                err && console.log(err);
+            });
+
+    }
+
+    const __renderItem = ({ item, index }) => {
         return (
             <View style={{
                 flexDirection: 'row',
                 backgroundColor: colors.primary,
             }}>
+
+                <Text style={styles.isiNo}>{index + 1}</Text>
                 <Text style={styles.isi}>{item.nip}</Text>
                 <Text style={styles.isi}>{item.nama}</Text>
                 <Text style={styles.isi}>{item.jabatan}</Text>
                 <Text style={styles.isi}>{item.username}</Text>
-                <Text style={styles.isi}>{item.password}</Text>
+
             </View >
         )
     }
@@ -87,11 +157,13 @@ export default function ({ navigation, route }) {
                     flexDirection: 'row',
                     backgroundColor: colors.primary,
                 }}>
+                    <Text style={styles.judulNo}>No</Text>
+                    <Text style={styles.judul}>NIP</Text>
                     <Text style={styles.judul}>Nama</Text>
                     <Text style={styles.judul}>Jabatan</Text>
                     <Text style={styles.judul}>Username</Text>
-                    <Text style={styles.judul}>Password</Text>
-                    <Text style={styles.judul}>NIP</Text>
+
+
                 </View >
                 <FlatList data={data} renderItem={__renderItem} />
 
@@ -107,31 +179,57 @@ export default function ({ navigation, route }) {
                     }}>
                         <Text style={{
                             fontFamily: fonts.secondary[600],
-                            fontSize: 12
+                            fontSize: 11
                         }}>Kendal, {moment().format('DD MMMM YYYY')}</Text>
                         <MyGap jarak={20} />
                         <Text style={{
                             fontFamily: fonts.secondary[600],
-                            fontSize: 12
-                        }}>{user.nama}</Text>
+                            fontSize: 11
+                        }}>( {user.nama} )</Text>
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            fontSize: 11
+                        }}>{user.jabatan}</Text>
                     </View>
                 </View>
             </View>
 
-
+            <View style={{
+                padding: 10
+            }}>
+                <MyButton onPress={createPDF} title="Cetak" warna={colors.danger} Icons="print-outline" />
+            </View>
 
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
+    isiNo: {
+        flex: 0.5,
+        padding: 5,
+        margin: 1,
+        backgroundColor: colors.white,
+        fontFamily: fonts.secondary[400],
+        fontSize: 10,
+        textAlign: 'center'
+    },
     isi: {
         flex: 1,
         padding: 5,
         margin: 1,
         backgroundColor: colors.white,
         fontFamily: fonts.secondary[400],
-        fontSize: 12,
+        fontSize: 10,
+        textAlign: 'center'
+    },
+    judulNo: {
+        flex: 0.5,
+        padding: 5,
+        margin: 1,
+        backgroundColor: colors.white,
+        fontFamily: fonts.secondary[800],
+        fontSize: 10,
         textAlign: 'center'
     },
     judul: {
@@ -140,7 +238,7 @@ const styles = StyleSheet.create({
         margin: 1,
         backgroundColor: colors.white,
         fontFamily: fonts.secondary[800],
-        fontSize: 12,
+        fontSize: 10,
         textAlign: 'center'
     }
 })

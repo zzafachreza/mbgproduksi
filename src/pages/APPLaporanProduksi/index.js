@@ -38,6 +38,7 @@ export default function ({ navigation, route }) {
 
         <table width="100%" border="1" style="margin-top:5%;border-collapse:collapse" cellpadding="4">
             <tr>
+            <th>No</th>
                 <th>Kode Produk</th>
                 <th>Nama Produk</th>
                 <th>Tanggal</th>
@@ -49,9 +50,10 @@ export default function ({ navigation, route }) {
 
         let tbody = ``;
 
-        data.map(i => {
+        data.map((i, index) => {
 
             tbody += `<tr>
+                <td>${index + 1}</td>
                 <td>${i.kode_produk}</td>
                 <td>${i.nama_produk}</td>
                 <td>${i.tanggal_produksi}</td>
@@ -64,9 +66,16 @@ export default function ({ navigation, route }) {
         })
 
 
-        let tfoot = `</table>`;
+        let tfoot = `
+        <tr>
+                <td colspan="4"></td>
+                <td>${total}</td>
+                <td colspan="3"></td>
+            
+            </tr>
+        </table>`;
 
-        let ttd = `<p style="text-align:right;margin-top:40px;margin-right:40px">Kendal, ${moment().format('DD MMMM YYYY')}</p><p style="text-align:right;margin-top:40px;margin-right:40px">${user.nama}</p>`;
+        let ttd = `<p style="text-align:right;margin-top:40px;margin-right:40px">Kendal, ${moment().format('DD MMMM YYYY')}</p><p style="text-align:right;margin-top:40px;margin-right:40px">( ${user.nama} )</p><p style="text-align:right;margin-top:5px;margin-right:40px">${user.jabatan}</p>`;
 
         let options = {
             html: thead + tbody + tfoot + ttd,
@@ -117,7 +126,15 @@ export default function ({ navigation, route }) {
     const __getTransaction = () => {
         axios.post(apiURL + modul).then(res => {
             console.log(res.data);
-            setData(res.data)
+            setData(res.data);
+
+            if (res.data.length > 0) {
+                let TOTAL = 0;
+                res.data.map(i => {
+                    TOTAL += parseFloat(i.panjang_fiber)
+                });
+                setTotal(TOTAL);
+            }
         })
     }
 
@@ -127,25 +144,80 @@ export default function ({ navigation, route }) {
             akhir: kirim.akhir
         }).then(res => {
             console.log(res.data);
-            setData(res.data)
+            setData(res.data);
+            if (res.data.length > 0) {
+                let TOTAL = 0;
+                res.data.map(i => {
+                    TOTAL += parseFloat(i.panjang_fiber)
+                });
+                setTotal(TOTAL);
+            }
         })
     }
+    const [total, setTotal] = useState(0)
 
-    const __renderItem = ({ item }) => {
-        return (
-            <View style={{
-                flexDirection: 'row',
-                backgroundColor: colors.primary,
-            }}>
-                <Text style={styles.isi}>{item.kode_produk}</Text>
-                <Text style={styles.isi}>{item.nama_produk}</Text>
-                <Text style={styles.isi}>{item.tanggal_produksi}</Text>
-                <Text style={styles.isi}>{item.panjang_fiber}</Text>
-                <Text style={styles.isi}>{item.hasil_kualitas}</Text>
-                <Text style={styles.isi}>{item.nama_leader}</Text>
-                <Text style={styles.isi}>{new Intl.NumberFormat().format(item.harga_produk)}</Text>
-            </View >
-        )
+
+
+    const __renderItem = ({ item, index }) => {
+
+
+        if (index == data.length - 1) {
+            return (
+                <>
+
+                    <View style={{
+                        flexDirection: 'row',
+                        backgroundColor: colors.primary,
+                    }}>
+                        <Text style={styles.isiNo}>{index + 1}</Text>
+                        <Text style={styles.isi}>{item.kode_produk}</Text>
+                        <Text style={styles.isi}>{item.nama_produk}</Text>
+                        <Text style={styles.isi}>{item.tanggal_produksi}</Text>
+                        <Text style={styles.isi}>{item.panjang_fiber}</Text>
+                        <Text style={styles.isi}>{item.hasil_kualitas}</Text>
+                        <Text style={styles.isi}>{item.nama_leader}</Text>
+                        <Text style={styles.isi}>{new Intl.NumberFormat().format(item.harga_produk)}</Text>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        backgroundColor: colors.primary,
+                    }}>
+                        <Text style={styles.thetotalNo}></Text>
+                        <Text style={styles.thetotal}></Text>
+                        <Text style={styles.thetotal}></Text>
+                        <Text style={styles.thetotal}></Text>
+                        <Text style={{
+                            flex: 1,
+                            padding: 5,
+                            margin: 1,
+                            backgroundColor: colors.white,
+                            fontFamily: fonts.secondary[400],
+                            fontSize: 10,
+                            textAlign: 'center'
+                        }}>{total}</Text>
+                        <Text style={styles.thetotal}></Text>
+                        <Text style={styles.thetotal}></Text>
+                        <Text style={styles.thetotal}></Text>
+                    </View>
+                </>
+            )
+        } else {
+            return (
+                <View style={{
+                    flexDirection: 'row',
+                    backgroundColor: colors.primary,
+                }}>
+                    <Text style={styles.isiNo}>{index + 1}</Text>
+                    <Text style={styles.isi}>{item.kode_produk}</Text>
+                    <Text style={styles.isi}>{item.nama_produk}</Text>
+                    <Text style={styles.isi}>{item.tanggal_produksi}</Text>
+                    <Text style={styles.isi}>{item.panjang_fiber}</Text>
+                    <Text style={styles.isi}>{item.hasil_kualitas}</Text>
+                    <Text style={styles.isi}>{item.nama_leader}</Text>
+                    <Text style={styles.isi}>{new Intl.NumberFormat().format(item.harga_produk)}</Text>
+                </View >
+            )
+        }
     }
     return (
         <SafeAreaView style={{
@@ -206,6 +278,7 @@ export default function ({ navigation, route }) {
                     flexDirection: 'row',
                     backgroundColor: colors.primary,
                 }}>
+                    <Text style={styles.judulNo}>No</Text>
                     <Text style={styles.judul}>Kode Produk</Text>
                     <Text style={styles.judul}>Nama Produk</Text>
                     <Text style={styles.judul}>Tanggal</Text>
@@ -215,6 +288,7 @@ export default function ({ navigation, route }) {
                     <Text style={styles.judul}>Harga Produk</Text>
                 </View >
                 <FlatList data={data} renderItem={__renderItem} />
+
 
                 <View style={{
                     justifyContent: 'flex-end',
@@ -228,13 +302,17 @@ export default function ({ navigation, route }) {
                     }}>
                         <Text style={{
                             fontFamily: fonts.secondary[600],
-                            fontSize: 12
+                            fontSize: 11
                         }}>Kendal, {moment().format('DD MMMM YYYY')}</Text>
                         <MyGap jarak={20} />
                         <Text style={{
                             fontFamily: fonts.secondary[600],
-                            fontSize: 12
-                        }}>{user.nama}</Text>
+                            fontSize: 11
+                        }}>( {user.nama} )</Text>
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            fontSize: 11
+                        }}>{user.jabatan}</Text>
                     </View>
                 </View>
             </View>
@@ -248,14 +326,50 @@ export default function ({ navigation, route }) {
         </SafeAreaView >
     )
 }
-
 const styles = StyleSheet.create({
+    isiNo: {
+        flex: 0.5,
+        padding: 5,
+        margin: 1,
+        backgroundColor: colors.white,
+        fontFamily: fonts.secondary[400],
+        fontSize: 10,
+        textAlign: 'center'
+    },
+
+    thetotalNo: {
+        flex: 0.5,
+        padding: 5,
+        margin: 1,
+        backgroundColor: colors.primary,
+        fontFamily: fonts.secondary[400],
+        fontSize: 10,
+        textAlign: 'center'
+    },
+    thetotal: {
+        flex: 1,
+        padding: 5,
+        margin: 1,
+        backgroundColor: colors.primary,
+        fontFamily: fonts.secondary[400],
+        fontSize: 10,
+        textAlign: 'center'
+    },
     isi: {
         flex: 1,
         padding: 5,
         margin: 1,
         backgroundColor: colors.white,
         fontFamily: fonts.secondary[400],
+        fontSize: 10,
+        textAlign: 'center'
+    },
+    judulNo: {
+        flex: 0.5,
+        padding: 5,
+        margin: 1,
+        backgroundColor: colors.white,
+        fontFamily: fonts.secondary[800],
         fontSize: 10,
         textAlign: 'center'
     },
