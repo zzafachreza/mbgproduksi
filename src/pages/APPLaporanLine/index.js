@@ -261,7 +261,26 @@ const styles = StyleSheet.create({
         margin: 1,
         backgroundColor: colors.white,
         fontFamily: fonts.secondary[400],
-        fontSize: 10,
+        fontSize: 8,
+        textAlign: 'center'
+    },
+
+    thetotalNo: {
+        flex: 0.5,
+        padding: 5,
+        margin: 1,
+        backgroundColor: colors.primary,
+        fontFamily: fonts.secondary[400],
+        fontSize: 8,
+        textAlign: 'center'
+    },
+    thetotal: {
+        flex: 1,
+        padding: 5,
+        margin: 1,
+        backgroundColor: colors.primary,
+        fontFamily: fonts.secondary[400],
+        fontSize: 8,
         textAlign: 'center'
     },
     isi: {
@@ -270,7 +289,7 @@ const styles = StyleSheet.create({
         margin: 1,
         backgroundColor: colors.white,
         fontFamily: fonts.secondary[400],
-        fontSize: 10,
+        fontSize: 8,
         textAlign: 'center'
     },
     judulNo: {
@@ -279,7 +298,7 @@ const styles = StyleSheet.create({
         margin: 1,
         backgroundColor: colors.white,
         fontFamily: fonts.secondary[800],
-        fontSize: 10,
+        fontSize: 8,
         textAlign: 'center'
     },
     judul: {
@@ -288,7 +307,7 @@ const styles = StyleSheet.create({
         margin: 1,
         backgroundColor: colors.white,
         fontFamily: fonts.secondary[800],
-        fontSize: 10,
+        fontSize: 8,
         textAlign: 'center'
     }
 })
