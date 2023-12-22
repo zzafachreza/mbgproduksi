@@ -130,10 +130,13 @@ export default function ({ navigation, route }) {
 
             if (res.data.length > 0) {
                 let TOTAL = 0;
+                let PRDK = 0;
                 res.data.map(i => {
-                    TOTAL += parseFloat(i.panjang_fiber)
+                    TOTAL += parseFloat(i.panjang_fiber);
+                    PRDK += parseFloat(i.harga_produk)
                 });
                 setTotal(TOTAL);
+                setTotalProduk(PRDK);
             }
         })
     }
@@ -147,14 +150,18 @@ export default function ({ navigation, route }) {
             setData(res.data);
             if (res.data.length > 0) {
                 let TOTAL = 0;
+                let PRDK = 0;
                 res.data.map(i => {
                     TOTAL += parseFloat(i.panjang_fiber)
+                    PRDK += parseFloat(i.harga_produk)
                 });
                 setTotal(TOTAL);
+                setTotalProduk(PRDK)
             }
         })
     }
-    const [total, setTotal] = useState(0)
+    const [total, setTotal] = useState(0);
+    const [totalProduk, setTotalProduk] = useState(0);
 
 
 
@@ -197,7 +204,15 @@ export default function ({ navigation, route }) {
                         }}>{total}</Text>
                         <Text style={styles.thetotal}></Text>
                         <Text style={styles.thetotal}></Text>
-                        <Text style={styles.thetotal}></Text>
+                        <Text style={{
+                            flex: 1,
+                            padding: 5,
+                            margin: 1,
+                            backgroundColor: colors.white,
+                            fontFamily: fonts.secondary[400],
+                            fontSize: 10,
+                            textAlign: 'center'
+                        }}>{new Intl.NumberFormat().format(totalProduk)}</Text>
                     </View>
                 </>
             )
