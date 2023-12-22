@@ -81,8 +81,8 @@ export default function ({ navigation, route }) {
             }}>
 
 
-                <MyMenuFeature img={require('../../assets/L1.png')} label="Laporan Data User" onPress={() => navigation.navigate('AppLaporanKaryawan', {
-                    judul: 'Laporan Data User'
+                <MyMenuFeature img={require('../../assets/L1.png')} label="Laporan User" onPress={() => navigation.navigate('AppLaporanKaryawan', {
+                    judul: 'Laporan User'
                 })} />
                 <MyMenuFeature img={require('../../assets/L2.png')} label="Laporan Hasil Produksi" onPress={() => navigation.navigate('APPLaporanProduksi', {
                     judul: 'Laporan Hasil Produksi'
