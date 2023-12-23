@@ -70,7 +70,8 @@ export default function ({ navigation, route }) {
         <tr>
                 <td colspan="4"></td>
                 <td>${total}</td>
-                <td colspan="3"></td>
+                <td colspan="2"></td>\
+                <td>${new Intl.NumberFormat().format(totalProduk)}</td>
             
             </tr>
         </table>`;
@@ -179,7 +180,15 @@ export default function ({ navigation, route }) {
                         <Text style={styles.isiNo}>{index + 1}</Text>
                         <Text style={styles.isi}>{item.kode_produk}</Text>
                         <Text style={styles.isi}>{item.nama_produk}</Text>
-                        <Text style={styles.isi}>{item.tanggal_produksi}</Text>
+                        <Text style={{
+                            flex: 1.5,
+                            padding: 5,
+                            margin: 1,
+                            backgroundColor: colors.white,
+                            fontFamily: fonts.secondary[400],
+                            fontSize: 8,
+                            textAlign: 'center'
+                        }}>{item.tanggal_produksi}</Text>
                         <Text style={styles.isi}>{item.panjang_fiber}</Text>
                         <Text style={styles.isi}>{item.hasil_kualitas}</Text>
                         <Text style={styles.isi}>{item.nama_leader}</Text>
@@ -192,7 +201,15 @@ export default function ({ navigation, route }) {
                         <Text style={styles.thetotalNo}></Text>
                         <Text style={styles.thetotal}></Text>
                         <Text style={styles.thetotal}></Text>
-                        <Text style={styles.thetotal}></Text>
+                        <Text style={{
+                            flex: 1.5,
+                            padding: 5,
+                            margin: 1,
+                            backgroundColor: colors.primary,
+                            fontFamily: fonts.secondary[400],
+                            fontSize: 10,
+                            textAlign: 'center'
+                        }}></Text>
                         <Text style={{
                             flex: 1,
                             padding: 5,
@@ -225,7 +242,15 @@ export default function ({ navigation, route }) {
                     <Text style={styles.isiNo}>{index + 1}</Text>
                     <Text style={styles.isi}>{item.kode_produk}</Text>
                     <Text style={styles.isi}>{item.nama_produk}</Text>
-                    <Text style={styles.isi}>{item.tanggal_produksi}</Text>
+                    <Text style={{
+                        flex: 1.5,
+                        padding: 5,
+                        margin: 1,
+                        backgroundColor: colors.white,
+                        fontFamily: fonts.secondary[400],
+                        fontSize: 8,
+                        textAlign: 'center'
+                    }}>{item.tanggal_produksi}</Text>
                     <Text style={styles.isi}>{item.panjang_fiber}</Text>
                     <Text style={styles.isi}>{item.hasil_kualitas}</Text>
                     <Text style={styles.isi}>{item.nama_leader}</Text>
@@ -296,7 +321,15 @@ export default function ({ navigation, route }) {
                     <Text style={styles.judulNo}>No</Text>
                     <Text style={styles.judul}>Kode Produk</Text>
                     <Text style={styles.judul}>Nama Produk</Text>
-                    <Text style={styles.judul}>Tanggal</Text>
+                    <Text style={{
+                        flex: 1.5,
+                        padding: 5,
+                        margin: 1,
+                        backgroundColor: colors.white,
+                        fontFamily: fonts.secondary[800],
+                        fontSize: 8,
+                        textAlign: 'center'
+                    }}>Tanggal</Text>
                     <Text style={styles.judul}>Panjang Fiber</Text>
                     <Text style={styles.judul}>Hasil Kualitas</Text>
                     <Text style={styles.judul}>Nama Leader</Text>
