@@ -102,7 +102,8 @@ export default function ({ navigation, route }) {
     const [data, setData] = useState([]);
     const [kirim, setKirim] = useState({
         awal: moment().format('YYYY-MM-DD'),
-        akhir: moment().format('YYYY-MM-DD')
+        akhir: moment().format('YYYY-MM-DD'),
+        key: '',
     })
 
     const [user, setUser] = useState({});
@@ -125,7 +126,8 @@ export default function ({ navigation, route }) {
     const __filterData = () => {
         axios.post(apiURL + modul, {
             awal: kirim.awal,
-            akhir: kirim.akhir
+            akhir: kirim.akhir,
+            key: kirim.key
         }).then(res => {
             console.log(res.data);
             setData(res.data)
@@ -166,6 +168,17 @@ export default function ({ navigation, route }) {
                     fontSize: 18,
                     color: colors.primary,
                 }}>{route.params.judul}</Text>
+            </View>
+            <View style={{
+                padding: 5,
+                marginBottom: 5,
+            }}>
+                <MyInput value={kirim.key} onChangeText={x => {
+                    setKirim({
+                        ...kirim,
+                        key: x
+                    })
+                }} iconname="cube" label="Filter line mesin" placeholder="Masukan line mesin" />
             </View>
             <View style={{
                 flexDirection: 'row',
