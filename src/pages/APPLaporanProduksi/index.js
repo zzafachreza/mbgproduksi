@@ -21,12 +21,13 @@ import DocumentPicker, {
 
 
 import ProgressCircle from 'react-native-progress-circle'
-import { MyButton, MyCalendar, MyGap, MyInput } from '../../components';
+import { MyButton, MyCalendar, MyGap, MyInput, MyPicker } from '../../components';
 import { Modal } from 'react-native';
 
 
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import Share from 'react-native-share';
+import { showMessage } from 'react-native-flash-message';
 export default function ({ navigation, route }) {
 
 
@@ -115,12 +116,22 @@ export default function ({ navigation, route }) {
         awal: moment().format('YYYY-MM-DD'),
         akhir: moment().format('YYYY-MM-DD'),
         key: '',
+        kode_produk: ''
     })
 
+    const [produk, setProduk] = useState([])
     useEffect(() => {
         getData('user').then(uu => {
             setUser(uu);
             console.log(uu)
+        });
+
+        axios.post(apiURL + 'produk').then(pr => {
+            setProduk(pr.data);
+            setKirim({
+                ...kirim,
+                kode_produk: pr.data[0].value,
+            })
         })
         __getTransaction();
     }, []);
@@ -144,24 +155,39 @@ export default function ({ navigation, route }) {
     }
 
     const __filterData = () => {
-        axios.post(apiURL + modul, {
-            awal: kirim.awal,
-            akhir: kirim.akhir,
-            key: kirim.key
-        }).then(res => {
-            console.log(res.data);
-            setData(res.data);
-            if (res.data.length > 0) {
-                let TOTAL = 0;
-                let PRDK = 0;
-                res.data.map(i => {
-                    TOTAL += parseFloat(i.panjang_fiber)
-                    PRDK += parseFloat(i.harga_produk)
-                });
-                setTotal(TOTAL);
-                setTotalProduk(PRDK)
-            }
-        })
+        console.log(kirim);
+
+        if (kirim.kode_produk.length == 0) {
+            showMessage({
+                message: 'Kode Produk wajib di isi !'
+            })
+        } else if (kirim.key.length == 0) {
+            showMessage({
+                message: 'Nama Produk wajib di isi !'
+            })
+        } else {
+
+            axios.post(apiURL + modul, {
+                awal: kirim.awal,
+                akhir: kirim.akhir,
+                key: kirim.key,
+                kode_produk: kirim.kode_produk
+            }).then(res => {
+                console.log(res.data);
+                setData(res.data);
+                if (res.data.length > 0) {
+                    let TOTAL = 0;
+                    let PRDK = 0;
+                    res.data.map(i => {
+                        TOTAL += parseFloat(i.panjang_fiber)
+                        PRDK += parseFloat(i.harga_produk)
+                    });
+                    setTotal(TOTAL);
+                    setTotalProduk(PRDK)
+                }
+            })
+        }
+
     }
     const [total, setTotal] = useState(0);
     const [totalProduk, setTotalProduk] = useState(0);
@@ -280,15 +306,34 @@ export default function ({ navigation, route }) {
                 }}>{route.params.judul}</Text>
             </View>
             <View style={{
-                padding: 5,
                 marginBottom: 5,
+                flexDirection: 'row'
             }}>
-                <MyInput value={kirim.key} onChangeText={x => {
-                    setKirim({
-                        ...kirim,
-                        key: x
-                    })
-                }} iconname="cube" label="Filter kode atau nama produk" placeholder="Masukan kode atau nama produk" />
+                <View style={{
+                    paddingRight: 5,
+                    paddingTop: 5,
+                    flex: 1,
+
+                }}>
+                    <MyPicker value={kirim.kode_produk} onValueChange={x => {
+                        setKirim({
+                            ...kirim,
+                            kode_produk: x
+                        })
+                    }} iconname="cube" data={produk} label="Kode produk" />
+
+                </View>
+                <View style={{
+                    paddingLeft: 5,
+                    flex: 1,
+                }}>
+                    <MyInput value={kirim.key} onChangeText={x => {
+                        setKirim({
+                            ...kirim,
+                            key: x
+                        })
+                    }} iconname="ribbon" label="Nama produk" placeholder="Masukan nama produk" />
+                </View>
             </View>
             <View style={{
                 flexDirection: 'row',
