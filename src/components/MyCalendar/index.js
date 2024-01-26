@@ -2,12 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, View, Picker } from 'react-native';
 import { Icon, ListItem, Button } from 'react-native-elements';
 import { colors } from '../../utils/colors';
-import { fonts } from '../../utils/fonts';
+import { MyDimensi, fonts } from '../../utils/fonts';
 import DatePicker from 'react-native-datepicker'
+import moment from 'moment';
 
 
 export default function MyCalendar({
   label,
+  valueShow,
   iconname,
   onDateChange,
   value,
@@ -16,8 +18,8 @@ export default function MyCalendar({
   styleInput,
   placeholder,
   label2,
-  iconColor = colors.black,
-  textColor = colors.black,
+  iconColor = colors.primary,
+  textColor = colors.primary,
   styleLabel,
   colorIcon = colors.primary,
   data = [],
@@ -29,8 +31,9 @@ export default function MyCalendar({
           flexDirection: 'row',
           alignItems: 'center',
           paddingVertical: 0,
+          position: 'relative'
         }}>
-        <Icon type="ionicon" name={iconname} color={iconColor} size={16} />
+        <Icon type="ionicon" name={iconname} color={iconColor} size={12} />
         <Text
           style={{
             fontFamily: fonts.secondary[600],
@@ -45,15 +48,23 @@ export default function MyCalendar({
 
       <View style={{
         backgroundColor: colors.white,
-        borderRadius: 10,
-        marginTop: 5,
         borderWidth: 1,
+        borderRadius: 30,
+        marginTop: 5,
         fontFamily: fonts.secondary[600],
-        borderColor: colors.border,
+        borderColor: colors.primary,
       }}>
+        <Text style={{
+          position: 'absolute',
+          zIndex: 0,
+          top: 15,
+          left: 20,
+          fontFamily: fonts.secondary[600],
+          fontSize: 12
+        }}>{moment(value).format('DD MMMM YYYY')}</Text>
         <DatePicker
 
-          style={{ width: '100%', height: 45, }}
+          style={{ width: '100%', height: 50, }}
           date={value}
           mode="date"
           placeholder={placeholder}
@@ -70,14 +81,18 @@ export default function MyCalendar({
             },
             dateInput: {
               fontFamily: fonts.secondary[600],
+              fontSize: 12,
               textAlign: 'left',
+              alignItems: 'flex-start',
+              opacity: 0,
+              paddingLeft: 20,
               borderWidth: 0,
-              color: colors.white
             }
             // ... You can check the source to find the other keys.
           }}
           onDateChange={onDateChange}
         />
+
       </View>
     </>
   );

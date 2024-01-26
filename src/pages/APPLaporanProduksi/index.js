@@ -57,7 +57,7 @@ export default function ({ navigation, route }) {
                 <td>${index + 1}</td>
                 <td>${i.kode_produk}</td>
                 <td>${i.nama_produk}</td>
-                <td>${i.tanggal_produksi}</td>
+                <td>${moment(i.tanggal_produksi).format('DD MMMM YYYY')}</td>
                 <td>${i.panjang_fiber}</td>
                 <td>${i.hasil_kualitas}</td>
                 <td>${i.nama_leader}</td>
@@ -157,36 +157,28 @@ export default function ({ navigation, route }) {
     const __filterData = () => {
         console.log(kirim);
 
-        if (kirim.kode_produk.length == 0) {
-            showMessage({
-                message: 'Kode Produk wajib di isi !'
-            })
-        } else if (kirim.key.length == 0) {
-            showMessage({
-                message: 'Nama Produk wajib di isi !'
-            })
-        } else {
 
-            axios.post(apiURL + modul, {
-                awal: kirim.awal,
-                akhir: kirim.akhir,
-                key: kirim.key,
-                kode_produk: kirim.kode_produk
-            }).then(res => {
-                console.log(res.data);
-                setData(res.data);
-                if (res.data.length > 0) {
-                    let TOTAL = 0;
-                    let PRDK = 0;
-                    res.data.map(i => {
-                        TOTAL += parseFloat(i.panjang_fiber)
-                        PRDK += parseFloat(i.harga_produk)
-                    });
-                    setTotal(TOTAL);
-                    setTotalProduk(PRDK)
-                }
-            })
-        }
+
+        axios.post(apiURL + modul, {
+            awal: kirim.awal,
+            akhir: kirim.akhir,
+            key: kirim.key,
+            kode_produk: kirim.kode_produk
+        }).then(res => {
+            console.log(res.data);
+            setData(res.data);
+            if (res.data.length > 0) {
+                let TOTAL = 0;
+                let PRDK = 0;
+                res.data.map(i => {
+                    TOTAL += parseFloat(i.panjang_fiber)
+                    PRDK += parseFloat(i.harga_produk)
+                });
+                setTotal(TOTAL);
+                setTotalProduk(PRDK)
+            }
+        })
+
 
     }
     const [total, setTotal] = useState(0);
@@ -216,7 +208,7 @@ export default function ({ navigation, route }) {
                             fontFamily: fonts.secondary[400],
                             fontSize: 8,
                             textAlign: 'center'
-                        }}>{item.tanggal_produksi}</Text>
+                        }}>{moment(item.tanggal_produksi).format('DD MMMM YYYY')}</Text>
                         <Text style={styles.isi}>{item.panjang_fiber}</Text>
                         <Text style={styles.isi}>{item.hasil_kualitas}</Text>
                         <Text style={styles.isi}>{item.nama_leader}</Text>
@@ -278,7 +270,7 @@ export default function ({ navigation, route }) {
                         fontFamily: fonts.secondary[400],
                         fontSize: 8,
                         textAlign: 'center'
-                    }}>{item.tanggal_produksi}</Text>
+                    }}>{moment(item.tanggal_produksi).format('DD MMMM YYYY')}</Text>
                     <Text style={styles.isi}>{item.panjang_fiber}</Text>
                     <Text style={styles.isi}>{item.hasil_kualitas}</Text>
                     <Text style={styles.isi}>{item.nama_leader}</Text>
@@ -369,60 +361,63 @@ export default function ({ navigation, route }) {
                     <MyButton onPress={__filterData} title="Search" Icons="search" />
                 </View>
             </View>
-            <View style={{
-                flex: 1,
-            }}>
-                <View style={{
-                    flexDirection: 'row',
-                    backgroundColor: colors.primary,
-                }}>
-                    <Text style={styles.judulNo}>No</Text>
-                    <Text style={styles.judul}>Kode Produk</Text>
-                    <Text style={styles.judul}>Nama Produk</Text>
-                    <Text style={{
-                        flex: 1.5,
-                        padding: 5,
-                        margin: 1,
-                        backgroundColor: colors.white,
-                        fontFamily: fonts.secondary[800],
-                        fontSize: 8,
-                        textAlign: 'center'
-                    }}>Tanggal</Text>
-                    <Text style={styles.judul}>Panjang Fiber</Text>
-                    <Text style={styles.judul}>Hasil Kualitas</Text>
-                    <Text style={styles.judul}>Nama Leader</Text>
-                    <Text style={styles.judul}>Harga Produk</Text>
-                </View >
-                <FlatList data={data} renderItem={__renderItem} />
 
-
+            <ScrollView horizontal>
                 <View style={{
-                    justifyContent: 'flex-end',
-                    alignItems: 'flex-end',
-                    padding: 10,
+                    flex: 1,
                 }}>
                     <View style={{
-                        justifyContent: 'center',
-                        alignItems: 'center'
-
+                        flexDirection: 'row',
+                        backgroundColor: colors.primary,
                     }}>
+                        <Text style={styles.judulNo}>No</Text>
+                        <Text style={styles.judul}>Kode Produk</Text>
+                        <Text style={styles.judul}>Nama Produk</Text>
                         <Text style={{
-                            fontFamily: fonts.secondary[600],
-                            fontSize: 11
-                        }}>Kendal, {moment().format('DD MMMM YYYY')}</Text>
-                        <MyGap jarak={20} />
-                        <Text style={{
-                            fontFamily: fonts.secondary[600],
-                            fontSize: 11
-                        }}>( {user.nama} )</Text>
-                        <Text style={{
-                            fontFamily: fonts.secondary[600],
-                            fontSize: 11
-                        }}>{user.jabatan}</Text>
+                            flex: 1.5,
+                            padding: 5,
+                            margin: 1,
+                            backgroundColor: colors.white,
+                            fontFamily: fonts.secondary[800],
+                            fontSize: 8,
+                            textAlign: 'center'
+                        }}>Tanggal</Text>
+                        <Text style={styles.judul}>Panjang Fiber</Text>
+                        <Text style={styles.judul}>Hasil Kualitas</Text>
+                        <Text style={styles.judul}>Nama Leader</Text>
+                        <Text style={styles.judul}>Harga Produk</Text>
+                    </View >
+                    <FlatList data={data} renderItem={__renderItem} />
+
+
+                    <View style={{
+                        justifyContent: 'flex-end',
+                        alignItems: 'flex-end',
+                        padding: 10,
+                    }}>
+                        <View style={{
+                            justifyContent: 'center',
+                            alignItems: 'center'
+
+                        }}>
+                            <Text style={{
+                                fontFamily: fonts.secondary[600],
+                                fontSize: 11
+                            }}>Kendal, {moment().format('DD MMMM YYYY')}</Text>
+                            <MyGap jarak={20} />
+                            <Text style={{
+                                fontFamily: fonts.secondary[600],
+                                fontSize: 11
+                            }}>( {user.nama} )</Text>
+                            <Text style={{
+                                fontFamily: fonts.secondary[600],
+                                fontSize: 11
+                            }}>{user.jabatan}</Text>
+                        </View>
                     </View>
                 </View>
-            </View>
 
+            </ScrollView>
 
             {user.jabatan !== 'Direktur' && <View style={{
                 padding: 10
@@ -434,7 +429,7 @@ export default function ({ navigation, route }) {
 }
 const styles = StyleSheet.create({
     isiNo: {
-        flex: 0.5,
+        width: 50,
         padding: 5,
         margin: 1,
         backgroundColor: colors.white,
@@ -444,7 +439,7 @@ const styles = StyleSheet.create({
     },
 
     thetotalNo: {
-        flex: 0.5,
+        width: 50,
         padding: 5,
         margin: 1,
         backgroundColor: colors.primary,
@@ -453,7 +448,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     thetotal: {
-        flex: 1,
+        width: 100,
         padding: 5,
         margin: 1,
         backgroundColor: colors.primary,
@@ -462,7 +457,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     isi: {
-        flex: 1,
+        width: 100,
         padding: 5,
         margin: 1,
         backgroundColor: colors.white,
@@ -471,7 +466,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     judulNo: {
-        flex: 0.5,
+        width: 50,
         padding: 5,
         margin: 1,
         backgroundColor: colors.white,
@@ -480,7 +475,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     judul: {
-        flex: 1,
+        width: 100,
         padding: 5,
         margin: 1,
         backgroundColor: colors.white,

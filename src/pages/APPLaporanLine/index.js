@@ -51,7 +51,7 @@ export default function ({ navigation, route }) {
             tbody += `<tr>
                 <td>${index + 1}</td>
                 <td>${i.line_mesin}</td>
-                <td>${i.tanggal_produksi}</td>
+                <td>${moment(i.tanggal_produksi).format('DD MMMM YYYY')}</td>
                 <td>${i.waktu_produksi}</td>
                 <td>${i.keterangan}</td>
                 <td>${i.nama_operator}</td>
@@ -142,7 +142,7 @@ export default function ({ navigation, route }) {
             }}>
                 <Text style={styles.isiNo}>{index + 1}</Text>
                 <Text style={styles.isi}>{item.line_mesin}</Text>
-                <Text style={styles.isi}>{item.tanggal_produksi}</Text>
+                <Text style={styles.isi}>{moment(item.tanggal_produksi).format('DD MMMM YYYY')}</Text>
                 <Text style={styles.isi}>{item.waktu_produksi}</Text>
 
                 <Text style={styles.isi}>{item.keterangan}</Text>
@@ -214,48 +214,51 @@ export default function ({ navigation, route }) {
                     <MyButton onPress={__filterData} title="Search" Icons="search" />
                 </View>
             </View>
-            <View style={{
-                flex: 1,
-            }}>
-                <View style={{
-                    flexDirection: 'row',
-                    backgroundColor: colors.primary,
-                }}>
-                    <Text style={styles.judulNo}>No</Text>
-                    <Text style={styles.judul}>Line Mesin</Text>
-                    <Text style={styles.judul}>Tanggal</Text>
-                    <Text style={styles.judul}>Waktu Produksi</Text>
-                    <Text style={styles.judul}>Keterangan</Text>
-                    <Text style={styles.judul}>Nama Operator</Text>
-                </View >
-                <FlatList data={data} renderItem={__renderItem} />
 
+            <ScrollView horizontal>
                 <View style={{
-                    justifyContent: 'flex-end',
-                    alignItems: 'flex-end',
-                    padding: 10,
+                    flex: 1,
                 }}>
                     <View style={{
-                        justifyContent: 'center',
-                        alignItems: 'center'
-
+                        flexDirection: 'row',
+                        backgroundColor: colors.primary,
                     }}>
-                        <Text style={{
-                            fontFamily: fonts.secondary[600],
-                            fontSize: 11
-                        }}>Kendal, {moment().format('DD MMMM YYYY')}</Text>
-                        <MyGap jarak={20} />
-                        <Text style={{
-                            fontFamily: fonts.secondary[600],
-                            fontSize: 11
-                        }}>( {user.nama} )</Text>
-                        <Text style={{
-                            fontFamily: fonts.secondary[600],
-                            fontSize: 11
-                        }}>{user.jabatan}</Text>
+                        <Text style={styles.judulNo}>No</Text>
+                        <Text style={styles.judul}>Line Mesin</Text>
+                        <Text style={styles.judul}>Tanggal</Text>
+                        <Text style={styles.judul}>Waktu Produksi</Text>
+                        <Text style={styles.judul}>Keterangan</Text>
+                        <Text style={styles.judul}>Nama Operator</Text>
+                    </View >
+                    <FlatList data={data} renderItem={__renderItem} />
+
+                    <View style={{
+                        justifyContent: 'flex-end',
+                        alignItems: 'flex-end',
+                        padding: 10,
+                    }}>
+                        <View style={{
+                            justifyContent: 'center',
+                            alignItems: 'center'
+
+                        }}>
+                            <Text style={{
+                                fontFamily: fonts.secondary[600],
+                                fontSize: 11
+                            }}>Kendal, {moment().format('DD MMMM YYYY')}</Text>
+                            <MyGap jarak={20} />
+                            <Text style={{
+                                fontFamily: fonts.secondary[600],
+                                fontSize: 11
+                            }}>( {user.nama} )</Text>
+                            <Text style={{
+                                fontFamily: fonts.secondary[600],
+                                fontSize: 11
+                            }}>{user.jabatan}</Text>
+                        </View>
                     </View>
                 </View>
-            </View>
+            </ScrollView>
 
             {user.jabatan !== 'Direktur' && <View style={{
                 padding: 10
@@ -269,7 +272,7 @@ export default function ({ navigation, route }) {
 
 const styles = StyleSheet.create({
     isiNo: {
-        flex: 0.5,
+        width: 50,
         padding: 5,
         margin: 1,
         backgroundColor: colors.white,
@@ -279,7 +282,7 @@ const styles = StyleSheet.create({
     },
 
     thetotalNo: {
-        flex: 0.5,
+        width: 50,
         padding: 5,
         margin: 1,
         backgroundColor: colors.primary,
@@ -288,7 +291,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     thetotal: {
-        flex: 1,
+        width: 100,
         padding: 5,
         margin: 1,
         backgroundColor: colors.primary,
@@ -297,7 +300,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     isi: {
-        flex: 1,
+        width: 100,
         padding: 5,
         margin: 1,
         backgroundColor: colors.white,
@@ -306,7 +309,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     judulNo: {
-        flex: 0.5,
+        width: 50,
         padding: 5,
         margin: 1,
         backgroundColor: colors.white,
@@ -315,7 +318,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     judul: {
-        flex: 1,
+        width: 100,
         padding: 5,
         margin: 1,
         backgroundColor: colors.white,
